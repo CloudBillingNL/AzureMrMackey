@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Mr. Mackey (Framework)";
+}
+
+<div id="log"></div>
+
+<script>
+    async function search() {
+        let start = 0;
+        let end = 1<<20;
+        let log = document.getElementById("log");
+
+        do {
+            let mid = Math.floor((start + end) / 2);
+            console.log(start, mid, end);
+            try {
+                log.textContent = `testing: ${mid}`;
+                let content = await fetch(`Home/MrMackey?size=${mid}`);
+                if (!content.ok) throw content.statusText;
+                console.log(`${mid} success`);
+                if (start === mid) { start += 1; }
+                else { start = mid; }
+            } catch (error) {
+                console.log(`${mid} failed`);
+                end = mid;
+            }
+        } while (start < end)
+
+        if (start !== 1<<20) {
+            console.log(`found limit: ${start - 1}`)
+            log.textContent = `found limit: ${start - 1}`;
+        } else {
+            console.log(`reached limit: ${start}`)
+            log.textContent = `reached limit: ${start}`;
+        }
+    }
+
+    search();
+</script>
