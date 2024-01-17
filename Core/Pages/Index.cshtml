@@ -4,12 +4,13 @@
     ViewData["Title"] = "Mr. Mackey (Core)";
 }
 
+<input id="end" value="64000"/><button onclick="search()">search</button>
 <div id="log"></div>
 
 <script>
     async function search() {
         let start = 0;
-        let end = 1<<20;
+        let end = Number(document.getElementById("end").value);
         let log = document.getElementById("log");
 
         do {
